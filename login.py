@@ -2,10 +2,14 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.options import Options
 
 # Path webdriver
 chrome_path = 'chromedriver.exe'
-chrome = webdriver.Chrome(executable_path=chrome_path)
+chrome_option = Options()
+chrome_option.add_argument('--headless')
+chrome = webdriver.Chrome(executable_path=chrome_path,
+                          chrome_options=chrome_option)
 
 
 def waitTag(xpath):
