@@ -1,20 +1,21 @@
 from bs4 import BeautifulSoup
 from login import getPage
+from prettytable import PrettyTable
 
 # Input url
 url = input('Masukan URL (topik forum diskusi): ')
-username = input('Masukan username: ')
-password = input('Masukan password: ')
+username = input('Masukan username (dosen): ')
+password = input('Masukan password (dosen): ')
 
 # Ambil para author posting di forum
 print('')
-print('Mulai scraping...')
+print('>> Mulai scraping...')
 page = getPage(url, username, password)
 bsObj = BeautifulSoup(page, features='html.parser')
 
-print('Mengambil author...')
+print('>> Mengambil author...')
 print('')
-print('=============================================================')
+
 author_discussion = []
 authors = bsObj.findAll('div', {'class': 'author'})
 for author in authors:
@@ -34,11 +35,13 @@ for author in author_discussion:
 # Hapus author pertama karena merupakan dosen
 author_list.pop(0)
 # Print author ascending
+pretty_table = PrettyTable(['Nama', 'Aktif'])
+pretty_table.align['Nama'] = 'l'
 for author in sorted(author_list, key=lambda i: i['nama']):
-    print('>> ' + author['nama'] +
-          '\t\t (aktif: ' + str(author['jumlah_aktif']) + ')')
+    pretty_table.add_row([author['nama'], author['jumlah_aktif']])
+    # print('>> ' + author['nama'] +
+    #       '\t\t (aktif: ' + str(author['jumlah_aktif']) + ')')
+print(pretty_table)
 
-print('=============================================================')
 print('')
-
-print('Ada ' + str(len(author_list)) + ' mahasiswa berdisksusi')
+print('>> Ada ' + str(len(author_list)) + ' mahasiswa berdisksusi')
