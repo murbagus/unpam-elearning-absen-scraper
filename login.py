@@ -4,7 +4,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 # Path webdriver
-chrome_path = './webdriver/chromedriver.exe'
+chrome_path = 'chromedriver.exe'
 chrome = webdriver.Chrome(executable_path=chrome_path)
 
 
