@@ -22,10 +22,14 @@ def getPage(url, username, password):
     # Kunjungi URL agar dapat masuk kehalam login
     chrome.get(url)
     # Klik tombol lanjut login
-    waitTag(
-        '/html/body/div[1]/div[3]/div/div/div/section/div/div/div/div[3]/form/button')
-    chrome.find_element_by_xpath(
-        '/html/body/div[1]/div[3]/div/div/div/section/div/div/div/div[3]/form/button').click()
+    # Periksa apakah melewati url enrol
+    c_url = chrome.current_url
+    lc_url = c_url.split('/')
+    if (lc_url[3] == 'enrol'):
+        waitTag(
+            '/html/body/div[1]/div[3]/div/div/div/section/div/div/div/div[3]/form/button')
+        chrome.find_element_by_xpath(
+            '/html/body/div[1]/div[3]/div/div/div/section/div/div/div/div[3]/form/button').click()
 
     # Melakukan login
     waitTag(
