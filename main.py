@@ -1,11 +1,15 @@
 from bs4 import BeautifulSoup
 from login import getPage
 from prettytable import PrettyTable
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # Input url
 url = input('Masukan URL (topik forum diskusi): ')
-username = input('Masukan username (dosen): ')
-password = input('Masukan password (dosen): ')
+username = os.getenv('USER_NAME') or input('Masukan username (dosen): ')
+password = os.getenv('PASSWORD') or input('Masukan password (dosen): ')
 
 # Ambil para author posting di forum
 print('')

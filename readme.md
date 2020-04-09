@@ -12,3 +12,12 @@
 3. Buka terminal di dalam direktori yang terdapat file `requirements.txt` dan jalankan perintah `pip install -r requirements.txt`
 4. Kemudian jalankan perintah `py main.py`
 
+## Opsional
+Jika anda tidak ingin selalu memasukan username dan password terus menerus, maka anda dapat membuat username dan password default dengan cara berikut:
+1. Buat file dengan nama `.env` di dalam root direktori
+2. Kemudian tuliskan teks berikut pada file `.env`
+```
+USER_NAME=xxxxxxx
+PASSWORD=yyyyyyy
+```
+3. Ganti `xxxxxxx` dengan username dan `yyyyyyy` dengan password
