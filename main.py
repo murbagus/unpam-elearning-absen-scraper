@@ -1,5 +1,5 @@
 from bs4 import BeautifulSoup
-from login import getPage
+from login import getPage, quitChromeDriver
 from prettytable import PrettyTable
 from dotenv import load_dotenv
 import os
@@ -12,9 +12,9 @@ jumlah_topik = int(input('Jumlah topik diskusi: '))
 # Input url
 urls = []
 for x in range(jumlah_topik):
-    url_x = input('Masukan URL (topik forum diskusi): ')
+    url_x = input('Masukan URL ke - ' + str(x + 1) +
+                  ' (topik forum diskusi): ')
     urls.append(url_x)
-    # url = input('Masukan URL (topik forum diskusi): ')
 
 # Meminta username dan password
 username = os.getenv('USER_NAME') or input('Masukan username (dosen): ')
@@ -26,17 +26,19 @@ print('>> Mulai scraping...')
 
 author_discussion = []
 # Looping scraping setiap url
-for i, url in enumerate(url):
+for i, url in enumerate(urls):
     page = getPage(url, username, password)
     bsObj = BeautifulSoup(page, features='html.parser')
 
-    print('>> Mengambil author forum ke ' + i + '...')
-    print('')
+    print('>> Mengambil author forum ke ' + str(i + 1) + '...')
 
     authors = bsObj.findAll('div', {'class': 'author'})
     for author in authors:
         x = author.find('a').get_text()
         author_discussion.append(x)
+
+quitChromeDriver()
+print('')
 
 # Group nama author menjadi satu (tidak ada yang lebih dari satu)
 author_list = []

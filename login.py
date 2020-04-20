@@ -31,16 +31,23 @@ def getPage(url, username, password):
         chrome.find_element_by_xpath(
             '/html/body/div[1]/div[3]/div/div/div/section/div/div/div/div[3]/form/button').click()
 
-    # Melakukan login
-    waitTag(
-        '/html/body/div[1]/div[2]/div/section/div/div[2]/div[1]/div/div[2]/form/div[3]/button')
-    chrome.find_element_by_xpath('//*[@id="username"]').send_keys(username)
-    chrome.find_element_by_xpath('//*[@id="password"]').send_keys(password)
-    chrome.find_element_by_xpath(
-        '/html/body/div[1]/div[2]/div/section/div/div[2]/div[1]/div/div[2]/form/div[3]/button').click()
+    # Periksa apakan melewati login
+    c_url = chrome.current_url
+    lc_url = c_url.split('/')
+    if (lc_url[3] == 'login'):
+        # Melakukan login
+        waitTag(
+            '/html/body/div[1]/div[2]/div/section/div/div[2]/div[1]/div/div[2]/form/div[3]/button')
+        chrome.find_element_by_xpath('//*[@id="username"]').send_keys(username)
+        chrome.find_element_by_xpath('//*[@id="password"]').send_keys(password)
+        chrome.find_element_by_xpath(
+            '/html/body/div[1]/div[2]/div/section/div/div[2]/div[1]/div/div[2]/form/div[3]/button').click()
 
     page_source = chrome.page_source
-    chrome.quit()
 
     # Ambil page source
     return page_source
+
+
+def quitChromeDriver():
+    chrome.quit()
