@@ -39,5 +39,8 @@ def getPage(url, username, password):
     chrome.find_element_by_xpath(
         '/html/body/div[1]/div[2]/div/section/div/div[2]/div[1]/div/div[2]/form/div[3]/button').click()
 
+    page_source = chrome.page_source
+    chrome.quit()
+
     # Ambil page source
-    return chrome.page_source
+    return page_source
