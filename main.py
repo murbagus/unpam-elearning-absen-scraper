@@ -6,27 +6,37 @@ import os
 
 load_dotenv()
 
+# Jumlah url
+jumlah_topik = int(input('Jumlah topik diskusi: '))
+
 # Input url
-url = input('Masukan URL (topik forum diskusi): ')
+urls = []
+for x in range(jumlah_topik):
+    url_x = input('Masukan URL (topik forum diskusi): ')
+    urls.append(url_x)
+    # url = input('Masukan URL (topik forum diskusi): ')
+
+# Meminta username dan password
 username = os.getenv('USER_NAME') or input('Masukan username (dosen): ')
 password = os.getenv('PASSWORD') or input('Masukan password (dosen): ')
 
 # Ambil para author posting di forum
 print('')
 print('>> Mulai scraping...')
-page = getPage(url, username, password)
-bsObj = BeautifulSoup(page, features='html.parser')
-
-print('>> Mengambil author...')
-print('')
 
 author_discussion = []
-authors = bsObj.findAll('div', {'class': 'author'})
-for author in authors:
-    x = author.find('a').get_text()
-    # if x not in author_discussion:
-    #     author_discussion.append(x)
-    author_discussion.append(x)
+# Looping scraping setiap url
+for i, url in enumerate(url):
+    page = getPage(url, username, password)
+    bsObj = BeautifulSoup(page, features='html.parser')
+
+    print('>> Mengambil author forum ke ' + i + '...')
+    print('')
+
+    authors = bsObj.findAll('div', {'class': 'author'})
+    for author in authors:
+        x = author.find('a').get_text()
+        author_discussion.append(x)
 
 # Group nama author menjadi satu (tidak ada yang lebih dari satu)
 author_list = []
@@ -43,8 +53,7 @@ pretty_table = PrettyTable(['Nama', 'Aktif'])
 pretty_table.align['Nama'] = 'l'
 for author in sorted(author_list, key=lambda i: i['nama']):
     pretty_table.add_row([author['nama'], author['jumlah_aktif']])
-    # print('>> ' + author['nama'] +
-    #       '\t\t (aktif: ' + str(author['jumlah_aktif']) + ')')
+
 print(pretty_table)
 
 print('')
